@@ -1,0 +1,64 @@
+\documentclass{article}
+
+\usepackage[margin=.5in]{geometry}
+\usepackage[section]{placeins}  %% keeps output from floating into adjoining sections
+\usepackage{setspace} %for Hmisc::describe
+\usepackage{relsize}  %for Hmisc::describe
+\usepackage{fixltx2e}
+\usepackage{booktabs} % for table formatting
+\usepackage{longtable}
+\usepackage{url}
+\usepackage{graphics}
+\usepackage{rotating}
+
+\begin{document}
+
+<<setup, echo=FALSE , message=FALSE,warning=FALSE>>=
+opts_chunk$set( echo=FALSE, 
+               fig.align='center',
+               message=FALSE, comment="", tidy=TRUE, results='asis',warnings=FALSE,cache=FALSE)
+library(XLConnect)
+library(xtable)
+library(plyr)
+library(reshape)
+library(ggplot2)
+library(RColorBrewer)
+require(scales)
+require(lubridate)
+require(doBy)
+@
+
+<<'Load spreadsheet'>>=
+wb <- loadWorkbook("C:/Users/wau4/Desktop/nepal harmonization/AnnualArrivalsbyCamps.xlsx")
+
+b1pul <- readWorksheet (wb, sheet = "b1pul", startRow=7, startCol=1, header = TRUE)
+b1pul <- rename(b1pul, c(Class.B1.Pul.Treat.Smear.Pos="smear", Class.B1.Pul.Treat.Culture.Pos="culture"))
+
+#drop smear negative, culture negative results
+b1pul <- b1pul[ which(b1pul$smear!="0" | b1pul$culture!="0"), ]
+#b1pul <- subset(b1pul, smear!=0 | culture!=0) (alternative code)
+
+b1pul$Year = substr(b1pul$Year, 10,13)
+
+#load arrivals by year spreadsheet
+arrivals <- readWorksheet (wb, sheet = "arrivalsperyear", startRow=4, startCol=1, header = TRUE)
+arrivals <- rename(arrivals, c(Row.Labels="Year", EDN="Arrivals"))
+arrivals$Year = substr(arrivals$Year, 10,13)
+arrivals <- arrivals[ which(arrivals$Year!="2008"),]
+@
+
+<<'total b1pul smear or culture pos by year'>>=
+df = ddply(b1pul, .(State=Year), summarize, total=sum(Total))
+df <- rename(df, c(State="Year"))
+@
+
+<<'combine df with arrivals'>>=
+b1arrivals <- cbind(df, arrivals)
+b1arrivals$tb <- 100000*(b1arrivals$total/b1arrivals$Arrivals) 
+@
+
+<<'plot', fig.cap="Smear or culture positive TB prevalence among Bhutanese refugee arrivals in the US between 2009 - 2012">>=
+ggplot(data=b1arrivals, aes(x=Year, y=tb)) + geom_bar(width=.6) + xlab("Year") + ylab("Smear or culture positive TB per 100,000")
+@
+
+\end{document}
