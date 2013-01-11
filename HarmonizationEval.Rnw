@@ -69,7 +69,7 @@ The 2007 Technical Instructions for Tuberculosis Screening and Treatment (2007 T
 \subsection{Camp demographics}
 Resettlement of Bhutanese refugees of Nepali origin living in refugee camps in Nepal started from December 2007.  The International Organization for Migration (IOM), Migration Health Department (MHD) conducts the health assessments for this population, including the implementation of the 2007 TB TI.
 
-In 2007, there were 7 camps with a total population of 102,087 (check) and as of October 31st, 2012, 75\% (check) of the refugee population has been resettled, with 41,081 refugees living in 4 camps. The figures below show the annual Bhutanese refugee population living in camps and a breakdown of population by camps. \footnote{The bar graphs also reflect camp closures starting from 2010.  The camps currently open are Beldangi (I, II and II-extension) and Sanischare}  
+In 2007, there were 7 camps with a total population of 110,000 and as of October 31st, 2012, 75\% (check) of the refugee population has been resettled, with about 41,000 refugees living in 4 camps. The figure below show the Bhutanese refugee population by camps and year. \footnote{The bar graphs also reflect camp closures starting from 2010.  The camps currently open are Beldangi (I, II and II-extension) and Sanischare}  
 
 <<'Load UNHCR spreadsheet'>>=
 wb <- loadWorkbook("C:/Users/wau4/Desktop/nepal harmonization/UNHCR_comprehensive.xlsx")
@@ -79,9 +79,9 @@ camppopulation$year <- factor(camppopulation$Row.Labels)
 camppopulation$total <- camppopulation$Sum.of.total
 @
 
-<<'annual camp population plot',fig.cap="Annual number of Bhutanese refugees living in camps in Nepal",fig.height=4,fig.width=6>>=
+<<'annual camp population plot',fig.cap="Annual number of Bhutanese refugees living in camps in Nepal",fig.height=4,fig.width=6,eval=FALSE>>=
 camppop <- ggplot(data=camppopulation, aes(x=year, y=total)) + geom_bar(colour="grey", width=.5) +
-  xlab("Year") + ylab("Number")
+  xlab("Year") + ylab("Number") 
 ggsave("camppop.pdf")
 @
 
@@ -101,7 +101,6 @@ popbycamp$camp <- factor(popbycamp$camp, c("Beldangi", "Goldhap", "Khudunabari",
 
 <<'plot population distribution by camp',warning=FALSE,fig.cap="Camp-specific population of Bhutanese refugees in Nepal",fig.height=4,fig.width=6>>=
 popbycamp <- ggplot(data=popbycamp, aes(x=year, y=Total)) + geom_bar(aes(fill=camp), position="stack", width=.6) + xlab("Year") + ylab("Number") + scale_fill_manual(values = rev(brewer.pal(6, "Reds"))) 
-
 ggsave("popbycamp.pdf")
 @
 
@@ -112,7 +111,7 @@ ggsave("popbycamp.pdf")
   \caption{Annual number of Bhutanese refugees living in camps in Nepal} 
 \end{figure}
 
-The age distribution of the refugee population living in the camps, as shown in the figure below, has remained consistent since 2008.
+The age distribution of the refugee population living in the camps, as shown in the figure below, has remained consistent since 2008.  
 
 <<'Camp age distribution'>>=
 campage <- readWorksheet (wb, sheet = "campage", startRow=4, startCol=1, header = TRUE)
@@ -255,7 +254,7 @@ psex <- ggplot(data=sex, aes(x=Year, y=Total)) + geom_bar(aes(fill=Sex), positio
   scale_fill_manual(values = rev(brewer.pal(3, "Greens")))
 @
 
-<<'arrivals grid',fig.width=15,fig.height=15,warning=FALSE>>=
+<<'arrivals grid',fig.width=15,fig.height=15,warning=FALSE, fig.cap="Description of Bhutanese refugee arrivals in the US since 2008 to present">>=
 require(gridExtra)
 arrivalsgrid <- grid.arrange(arrivals, cumulativearrivals, page, psex, nrow=2, ncol=2)
 ggsave("arrivalsgrid.pdf")
@@ -263,16 +262,11 @@ ggsave("arrivalsgrid.pdf")
 
 \section{TB treatment in the camps prior to US resettlement}
 Health care in the camps and basic hospital care is provided by the Association of Medical Doctors of Asia (AMDA), sponsored by UNHCR and private donors.  
-[insert any pre-Dec2008 TB data from the camps]
-TB case detection in the camps occurs through passive surveillance, implying only symptomatic cases seeking medical attention are detected.  Diagnostic methods available to AMDA include sputum microscopy for all suspected individuals, chest x-ray (CXR) for those with negative smears and treatment failure and sputum culture for individuals with treatment failure or relapse.  
+TB case detection in the camps occurs through passive surveillance, implying only symptomatic cases seeking medical attention are detected.  Diagnostic methods available to AMDA include sputum microscopy for all suspected individuals, chest x-ray (CXR) for those with negative smears and treatment failure and sputum culture for individuals with treatment failure or relapse.  According to AMDA's data, in 2007 there were 237 cases of TB treated in the camps (221 per 100,000 prevalence), Ff whom 50 \% were sputum positive.    
 
 TB treatment of Bhutanese refugees followed the National TB Programme guidelines, which included 2 months of treatment with four drugs (intensive phase): Isoniazid (H), Rifampicin (R), Ethambutol (E), and pyrazinamide (Z) and 6 months of treatment with two drugs (continuation phase) - H and E.  The treatment was directly observed only for the first two months.
 
 Laboratory monitoring of treatment included sputum smears at the end of intensive phase and at the end of treatment.  CXR monitoring was not regular.
-
-[Insert statistics about treatment success rate and any treatment failure/re-treatment etc]
-
-[insert table of differences between the two protocols]
 
 \section{Harmonization of TB diagnosis and treatment protocols between the US resettlement population and the rest of the camp population}
 \subsection{Rationale}
@@ -280,7 +274,7 @@ All Bhutanese refugees are potential candidates for resettlement.  Therefore, th
 
 Further, the simultaneous implementation of two different screening and treatment protocols was likely going to lead to the perception of favoritism for the refugees opting for resettlement, possibly leading to increased tension and anti-resettlement feelings.  
 
-Therefore, in 2008, IOM proposed to harmonize protocols for TB detection and treatment in the camps in accordance with the protocol of the resettlement countries, with funding from Bureau of Population, Refugees and Migration (PRM).
+Therefore, in 2008, IOM proposed to harmonize protocols for TB detection and treatment in the camps in accordance with the protocol of the resettlement countries, with funding from Bureau of Population, Refugees and Migration (PRM), US Department of State.
 
 \subsection{Objective and aims for the Harmonization Project}
 The overall objective is to ensure effective diagnosis and treatment of TB for the entire Bhutanese refugee population living in camps in Nepal.
@@ -325,28 +319,24 @@ The DOT workers provide the referral for these individuals for sputum collection
 Sputa are processed for smears, followed by a line probe molecular DNA assay for those with a positive smear.  Treatment may be initiated based on smear positivity alone or after the LPA results, if no drug resistance pattern is detected on the LPA.  The sputum is further processed for MTB culture and 1st and 2nd line drug susceptibility.  
 
 \subsubsection{Initiation of treatment and management of cases}
-Results of the sputum analysis are provided to AMDA as they become available.  If drug resistance is detected or if a case is highly infectious, IOM takes over the management of these cases at the Magic Mountain Isolation Center.  Management of these cases is identical to that of USRP cases.
+Results of the sputum analysis are provided to AMDA as they become available.  A drug resistant or highly infectious case is transferred to IOM and these cases are managed at the Magic Mountain Isolation Center.  Management of these cases is identical to that of the cases identified during the US resettlement process.
 
-For all pan-susceptible cases, AMDA manages the treatment and follow-up.  DOT is provided to these cases at the camp DOT centers.  Each of the 4 camps have a DOT center.  The DOT staff refer any patient complaints indicative of side-effects to the camp medical officer.  
+AMDA manages the treatment and follow-up for all pan-susceptible cases.  DOT is provided to these cases at the camp DOT centers.  Each of the 4 camps have a DOT center.  The DOT staff refer any patient complaints indicative of side-effects to the camp medical officer. Currently, there is no routine follow-up medical exams of cases of TB on treatment under the Harmonization Project.
 
-DOT is provided all 7 days of the week; on weekends, DOT is provided by camp volunteers.  
-
-Supplemental nutrition is provided daily along with TB medication, alternating between milk and biscuits.  
-
-Currently, there is no regular follow-up of pan-susceptible TB cases being treated under the Harmonization Project for lab testing as a part of monitoring of side effects.  
+DOT is provided all 7 days of the week by the camp DOT workers; on weekends, DOT is provided by camp volunteers.  Supplemental nutrition is provided daily along with TB medication, alternating between milk and biscuits.  
 
 \subsubsection{Follow-up sputum testing and chest x-rays}
 Sputum testing is repeated for pan-susceptible TB cases on treatment at months 1, 2, 3, 5 (from treatment initiation) and end of treatment.
 
-Chest x-rays are taken prior to treatment initiation, 2 months after initiation of treatment and at end of treatment.
+Chest x-rays are taken prior to treatment initiation, 2 months after initiation of treatment and at end of treatment.  However, this is schedule is currently not implemented in a systematic manner.  The CXR are taken at the AMDA hospital and do not seem to be read by a radiologist.  Further, they do not seem to be utilized in clinical monitoring of the case.
 
 \subsubsection{Contact investigation}
-For MDR TB cases diagnosed under the Harmonization Project, contact investigation is conducted by IOM.  Contact investigation includes individuals sharing a hut with the index case.  The protocol for contact investigation is similar to that followed for USRP cases i.e. an active case finding, starting with TST.  Individuals with a positive TST are followed up with a CXR and if the CXR is abnormal, they under sputum analysis (smears, cultures and DST).  Children $<$4 years of age and immunocompromised individuals are given isoniazid (INH) prophylaxis irrespective of their TST induration. 
+For MDR TB cases diagnosed under the Harmonization Project, contact investigation is conducted by IOM.  Contact investigation includes individuals sharing a hut with the index case.  The protocol for contact investigation is similar to that followed for cases identified through the US resettlement process i.e. an active case finding, starting with TST.  Individuals with a positive TST are followed up with a CXR and if the CXR is abnormal, they under sputum analysis (smears, cultures and DST).  Children $<$4 years of age and immunocompromised individuals are given isoniazid (INH) prophylaxis irrespective of their TST induration.\footnote{Technical Instructions for Tuberculosis Screening and Treatment. Using Cultures and Directly Observed Therapy, October 1, 2009} 
 
-For pan-susceptible cases, contact investigation is conducted by AMDA and is based on screening for symptoms suggestive of TB among individuals who share a hut with the index case.
+For pan-susceptible cases, contact investigation is conducted by AMDA and is based on screening for symptoms suggestive of TB among individuals who share a hut with the index case. 
 
 \subsubsection{Data management}
-Data management for the Harmonization project is mainly handled by IOM, with input from the Harmonization project coordinator.  All patient data, except the lab data are stored in unlinked excel spreadsheets.  Until October 2010, patients were identified by name, date of birth, sex and camp address.  From October 2010 onwards, a UNHCR individual ID was included in the line list of referral from AMDA to IOM for sputum collection.  The lab database is not linked with any of the demographic and clinical information stored in excel sheets.  
+Data management for the Harmonization project is mainly conducted by IOM, with input from the Harmonization Project Coordinator and the camp DOT workers.  All patient data, except the lab data are stored in unlinked excel spreadsheets.  Until October 2010, patients were identified by name, age (calculated by DOT worker; data of birth is not recorded), sex and camp address.  From October 2010 onwards, a UNHCR individual ID was included in the line list of referral from AMDA to IOM for sputum collection.  The lab database is not linked with any of the demographic and clinical information stored in excel sheets.  In the lab database, individuals are assigned a lab-generated ID (AMDA-XXXX). 
 
 \subsubsection{Roles}
 {\bf AMDA}
@@ -381,7 +371,6 @@ The Harmonization Project evaluation field work was conducted between 3 - 12 Dec
 \end{itemize}
 
 \Subsection{Prevalence and time trend in active TB in the camp and resettlement population}
-The Harmonization Project was initiated in December 2008 and the number of individuals with suspected TB referred by AMDA to IOM for sputum collection and analysis has steadily increased over time as shown in the figure below.
 
 <<'Load campandusrptbprev spreadsheet'>>=
 wb <- loadWorkbook("C:/Users/wau4/Desktop/nepal harmonization/campandusrptbprev.xlsx")
@@ -401,7 +390,13 @@ tbprev$iomrefpercent <- (tbprev$iomreferral/tbprev$camppop)*100
 tbprev$camptbprev <- (tbprev$campsmearorculpos/tbprev$camppop)*100000
 tbprev$camptbprevculpos <-(tbprev$campculturepos/tbprev$camppop)*100000
 tbprev$campculsmearratio <- tbprev$campculturepos/tbprev$campsmearpos
+
+#total cases (camp + usrp)
+tbprev$totalcases <- tbprev$usrpsmearorculpos + tbprev$campsmearorculpos
+tbprev$totalprev <- (tbprev$totalcases/tbprev$camppop)*100000
 @
+Since 2008 (up to October 2012), a total of \Sexpr{sum(tbprev$iomreferral)} suspected cases of TB have been referred to IOM for sputum collection and analysis. The annual number of referrals per year are shown in Figure 4.  Of these, a total of \Sexpr{sum(tbprev$campsmearorculpos)} cases with either smear or culture positive TB were identified by IOM.  Using an average camp population of 72,000 during the mid-period between 2008-2012, the prevalence of active TB (smear or culture positive) in the camp population is approximately \Sexpr{100000*(sum(tbprev$campsmearorculpos)/72000)}. The annual prevalence of TB and trend over time are shown in Figure 5, using annual camp population as the denominator for estimating prevalence.  For comparison, the smear or culture positive TB prevalence in the US resettlement population is also shown in the same figure, along with the overall prevalence, combining the cases from camps and the US resettlement group.  The latter measure of prevalence using the annual camp population of the denominator.  Tables 1 and 2 provide supporting information to Figure 1.
+
 
 <<'plot camp referral to IOM',warning=FALSE,fig.cap="Number of referral of suspected cases of TB identified by AMDA in the camp to IOM",fig.height=5,fig.width=5>>=
 ggplot(data=tbprev, aes(x=Year, y=iomreferral)) + geom_bar(width=.5, fill="dark green") +
@@ -409,10 +404,14 @@ ggplot(data=tbprev, aes(x=Year, y=iomreferral)) + geom_bar(width=.5, fill="dark 
 @
 
 <<'tb prev camp vs usrp'>>=
-myvars <- c("Year", "usrptbprev", "camptbprev")
+myvars <- c("Year", "usrptbprev", "camptbprev", "totalprev")
 tbprev.campvsusrp <- tbprev[myvars]
 tbprev.campvsusrp.melt = melt.data.frame(tbprev.campvsusrp, variable_name="tbprev", na.rm=TRUE)
-tbprev.campvsusrp.melt$tbprev = substr(tbprev.campvsusrp.melt$tbprev, 1,4)
+
+tbprev.campvsusrp.melt <- tbprev.campvsusrp.melt
+levels(tbprev.campvsusrp.melt$tbprev)[levels(tbprev.campvsusrp.melt$tbprev)=="usrptbprev"] <- "Resettlement"
+levels(tbprev.campvsusrp.melt$tbprev)[levels(tbprev.campvsusrp.melt$tbprev)=="camptbprev"] <- "Camp"
+levels(tbprev.campvsusrp.melt$tbprev)[levels(tbprev.campvsusrp.melt$tbprev)=="totalprev"] <- "All cases"
 @
 
 <<'plot tb prev camp vs usrp',fig.height=4, fig.width=6,fig.cap="TB prevalence among camp and USRP populations">>=
@@ -426,9 +425,9 @@ ggsave("tbprevcampvsusrp.pdf")
 keepvars <- c("Year", "IOMScreen", "abncxr", "usrpabncxr", "usrpsmearorculpos", "usrpculturepos", "usrpsmearpos", "usrptbprev", "usrptbprevculpos", "usrpculsmearratio")
 tbprevusrp <- tbprev[keepvars]
 
-tbprevusrp <- rename(tbprevusrp, c(IOMScreen="No. of USRP applicants screened by IOM", abncxr="No. of abnormal CXR suggestive of TB", usrpabncxr="Percent with abnormal CXR", usrpsmearorculpos="No. smear or culture positive", usrpculturepos="No. culture positive", usrpsmearpos="No. smear positive", usrptbprev="TB prevalence (per 100,000)", usrptbprevculpos="Culture positive TB prevalence (per 100,000)", usrpculsmearratio="Culture positive to smear positive ratio"))
+tbprevusrp <- rename(tbprevusrp, c(IOMScreen="No. of USRP applicants screened by IOM", abncxr="No. of abnormal CXR suggestive of TB", usrpabncxr="Percent with abnormal CXR", usrpsmearorculpos="No. smear or culture positive", usrpculturepos="No. culture positive", usrpsmearpos="No. smear positive", usrptbprev="Smear/culture positive TB prevalence (per 100,000)", usrptbprevculpos="Culture positive TB prevalence (per 100,000)", usrpculsmearratio="Culture positive to smear positive ratio"))
 
-tbprevusrp.t <- t(tbprevusrp) #this will transpose 
+#tbprevusrp.t <- t(tbprevusrp) #this will transpose 
 tbprevusrp.t = setNames(data.frame(t(tbprevusrp[,-1])), tbprevusrp[,1]) #this will transpose plus keep the first row as column labels
 @
 
@@ -437,12 +436,12 @@ print(xtable(tbprevusrp.t, caption="TB burden among individuals screened by IOM 
 @
 
 <<'TB camp burden details table'>>=
-keepvars.camp <- c("Year", "iomreferral", "iomrefpercent", "campsmearorculpos", "campculturepos", "campsmearpos", "camptbprev", "camptbprevculpos", "campculsmearratio")
+keepvars.camp <- c("Year", "camppop", "iomreferral", "iomrefpercent", "campsmearorculpos", "campculturepos", "campsmearpos", "camptbprev", "camptbprevculpos", "campculsmearratio")
 tbprevcamp <- tbprev[keepvars.camp]
 
-tbprevcamp <- rename(tbprevcamp, c(iomreferral="Suspected TB cases referred to IOM", iomrefpercent="Percent of camp population referred to IOM as suspected TB cases", campsmearorculpos="No. smear or culture positive", campculturepos="No. culture positive", campsmearpos="No. smear positive", camptbprev="TB prevalence (per 100,000)", camptbprevculpos="Culture positive TB prevalence (per 100,000)", campculsmearratio="Culture positive to smear positive ratio"))
+tbprevcamp <- rename(tbprevcamp, c(camppop="Camp population", iomreferral="Suspected TB cases referred to IOM", iomrefpercent="Percent of camp population referred to IOM as suspected TB cases", campsmearorculpos="No. smear or culture positive", campculturepos="No. culture positive", campsmearpos="No. smear positive", camptbprev="TB prevalence (per 100,000)", camptbprevculpos="Culture positive TB prevalence (per 100,000)", campculsmearratio="Culture positive to smear positive ratio"))
 
-tbprevcamp.t <- t(tbprevcamp) #this will transpose 
+#tbprevcamp.t <- t(tbprevcamp) #this will transpose 
 tbprevcamp.t = setNames(data.frame(t(tbprevcamp[,-1])), tbprevcamp[,1]) #this will transpose plus keep the first row as column labels
 @
 
@@ -455,11 +454,26 @@ full <- rbind(tbprevusrp.t, tbprevcamp.t)
 print(xtable(full, caption="TB burden among USRP and the refugee camp population", digits=c(0,0,0,0,0,0), align=c('r', 'r', 'r', 'r', 'r', 'r')))
 @
 
+<<'linkage between harmonization and IOM'>>=
+link <- read.csv("HarmonizationCasesInMimosa.csv", sep=",", header=T) 
+link$ExamDate1 <- dmy(link$ExamDate)
+link$DepartDate1 <- dmy(link$DepartDate)
+link$timetodepart <- (link$DepartDate1 - link$ExamDate1)/30.5
+link1 <- subset(link, ExamDate1!="NA", drop=TRUE)
+link1$timetodepart1 <- as.numeric(link1$timetodepart)
+link2 <- subset(link1, timetodepart1!="NA", drop=TRUE)
+@
+
 {\bf Key statistics of the Harmonization Project and linkage with the IOM Medical screening}
 \begin{itemize}
-\item 65 cases of TB entered resettlment while on TB treatment and were transferred from AMDA to IOM
-\item x cases of TB entered resettlement after completing treatment under Harmonization Project.  Average time to complete the medical exam was y months.
-\ned{itemize}
+\item Of approximately 254 cases of TB identified in the Harmonization Project since late 2010 to present, at least 100 (39$\%$) have been identified in the Resettlement Support Center database, indicated that these individuals have initiated the process of resettlement.  
+  \begin{itemize}
+  \item 51 of the above 100 (51$\%$) have further been identified in IOM's MiMOSA database indicated that these individuals have initiated medical screening for resettlement. These individuals underwent IOM medical screening between \Sexpr{min(link1$ExamDate1)} and \Sexpr{max(link1$ExamDate1)} dates.\footnote{The 2013 date is either an error in data entry or this person has been given an appointment for medical exam for February 7, 2013.}
+  \item Of these, about 25 have already been resettled, all in the US.  The median time between their IOM medical exam and date of departure for resettlement in the US was \Sexpr{median(link2$timetodepart1)}, (inter-quartile range: 2 - 4 months).
+  \end{itemize}
+\item 65 cases of TB entered resettlment (i.e. registered with the Resettlement Support Center (RSC)) while on TB treatment and were transferred from AMDA to IOM.  Once these cases complete their TB treatment, they undergo the administrative processes with RSC and then undergo the immigration medical exam at IOM.
+\item At least 8 cases of MDR TB have been identified under the Harmonization Project since December 2008, of whom 5 are currently under treatment, 2 have been declared as cured and 1 case defaulted. 
+\end{itemize}
 
 \subsection{Contact investigation of cases identified in the Harmonization Project}
 
@@ -531,6 +545,7 @@ print(xtable(cxr, caption="CXR results of contacts of active TB cases identified
 
 All 23 contacts with an abnormal CXR (active and inactive) underwent sputum analysis.  Among the 15 inviduals with abnormal CXR (active), 2 were smear positive and culture positive while 4 were smear negative and culture positive.  The culture results on the remaining 11 individuals with negative smears are pending.  The 5 contacts with abnormal (inactive) CXR had negative smears with pending culture results.  Drug susceptibility test results are pending for all samples.  
 
+\section{Recommendations}
 
 
 \end{document} 
